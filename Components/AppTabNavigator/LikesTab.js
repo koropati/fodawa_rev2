@@ -16,6 +16,7 @@ import {
 import { Card, CardItem, Thumbnail, Icon, Container, Content, Header, Left, Body, Right, Button } from 'native-base'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import CardMhs from '../CardMhs'
+import CardComponent from '../CardComponent'
 class LikeTab extends Component {
 
 	constructor(props) {
@@ -53,7 +54,7 @@ class LikeTab extends Component {
 
 	
 	static navigationOptions = {
-		title: 'lihatMahasiswa',
+
 		tabBarIcon: ({ tintColor }) => (
 			<Icon name="ios-heart" style={{ color: tintColor }} />
 		)
@@ -75,8 +76,10 @@ class LikeTab extends Component {
 						}
 						<FlatList
 							data={this.state.data}
+							keyExtractor={(item, index) => index}
 							renderItem={({ item }) =>
-								<CardMhs nama={item.nama} nim={item.nim} alamat={item.alamat} no_hp={item.no_hp} email={item.email} />
+								<CardMhs nama={item.nama} nim={item.nim} alamat={item.alamat} no_hp={item.no_hp} email={item.email}/>
+								//<CardComponent imageSource="1" nama={item.nama} nim={item.nim}/>
 							}
 							refreshControl={
 								<RefreshControl

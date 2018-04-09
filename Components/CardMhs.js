@@ -3,10 +3,13 @@ import {
 	View,
 	Text,
 	StyleSheet,
-	Image	
+	Image,
+	ActivityIndicator,
+	TouchableOpacity,
+	Alert
 } from 'react-native';
 
-import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
+import { Container, Header, Content, List, ListItem, Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
 
 class CardMhs extends Component {
 
@@ -75,13 +78,22 @@ class CardMhs extends Component {
 						<Button iconLeft style={{ backgroundColor: '#2980b9', paddingLeft: 2, height: 30, width: 100 }}>
 							<Icon name='refresh' />
 							<Text style={{ color: 'white', paddingRight: 10 }}>Edit</Text>
-							>
+
 						</Button>
 					</Left>
 					<Right>
-						<Button iconLeft style={{ backgroundColor: '#c0392b', paddingLeft: 2, height: 30, width: 100 }}>
+						<Button iconLeft onPress={() => Alert.alert(
+							'Alert',
+							'Yakin Dihapus ?',
+							[
+								{ text: 'Batal', onPress: () => console.log('Cancel ditekan'), style: 'cancel' },
+								{ text: 'OK', onPress: () => console.log('Ceritanya Dihapus') },
+							],
+							{ cancelable: false }
+						)} style={{ backgroundColor: '#c0392b', paddingLeft: 2, height: 30, width: 100 }}>
 							<Icon name='trash' />
 							<Text style={{ color: 'white', paddingRight: 10 }}>Hapus</Text>
+
 						</Button>
 					</Right>
 				</CardItem>

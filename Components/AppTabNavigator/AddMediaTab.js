@@ -32,7 +32,7 @@ class AddMediaTab extends Component {
     }
   }
 
-
+  
 
   Insert_Data_Into_MySQL = () => {
 
@@ -62,7 +62,7 @@ class AddMediaTab extends Component {
           console.error(error);
           this.setState({ ActivityIndicator_Loading: false });
         });
-    }); 
+    });
     this.nim.clear()
     this.nama.clear()
     this.alamat.clear()
@@ -72,13 +72,20 @@ class AddMediaTab extends Component {
   }
 
   render() {
+
     return (
 
       <Container style={{ flex: 1, backgroundColor: 'white' }}>
         <Header style={{ backgroundColor: 'white' }}>
           <Left><Icon name="md-person-add" style={{ paddingLeft: 10 }}></Icon></Left>
           <Body style={{ alignItems: 'center' }}><Text>Masukan Data Mahasiswa</Text></Body>
-          <Right><EntypoIcon name="back-in-time" style={{ paddingRight: 10, fontSize: 32 }}></EntypoIcon></Right>
+          <Right>
+            <Button transparent >
+              <EntypoIcon name="back-in-time" style={{ paddingRight: 10, fontSize: 32 }}>
+              </EntypoIcon>
+              
+            </Button>
+          </Right>
         </Header>
         <Content>
           <View style={styles.MainContainer}>
@@ -87,45 +94,45 @@ class AddMediaTab extends Component {
               placeholder="Masukan NIM"
               style={styles.TextInputStyleClass}
               underlineColorAndroid="transparent"
-              onChangeText={(TextInputText) => this.setState({ nim: TextInputText })} 
-              keyboardType = 'numeric'
-              ref={input => { this.nim = input }}/>
+              onChangeText={(TextInputText) => this.setState({ nim: TextInputText })}
+              keyboardType='numeric'
+              ref={input => { this.nim = input }} />
 
             <TextInput
               placeholder="Masukan Nama"
               style={styles.TextInputStyleClass}
               underlineColorAndroid="transparent"
-              onChangeText={(TextInputText) => this.setState({ nama: TextInputText })} 
-              ref={input => { this.nama = input }}/>
+              onChangeText={(TextInputText) => this.setState({ nama: TextInputText })}
+              ref={input => { this.nama = input }} />
 
             <TextInput
               placeholder="Masukan Alamat"
               style={styles.TextInputStyleClass}
               underlineColorAndroid="transparent"
-              onChangeText={(TextInputText) => this.setState({ alamat: TextInputText })} 
-              ref={input => { this.alamat = input }}/>
+              onChangeText={(TextInputText) => this.setState({ alamat: TextInputText })}
+              ref={input => { this.alamat = input }} />
 
             <TextInput
               placeholder="Masukan No. Hp"
               style={styles.TextInputStyleClass}
               underlineColorAndroid="transparent"
-              onChangeText={(TextInputText) => this.setState({ no_hp: TextInputText })} 
-              keyboardType = 'numeric'
-              ref={input => { this.no_hp = input }}/>
+              onChangeText={(TextInputText) => this.setState({ no_hp: TextInputText })}
+              keyboardType='numeric'
+              ref={input => { this.no_hp = input }} />
 
             <TextInput
               placeholder="Masukan Email"
               style={styles.TextInputStyleClass}
               underlineColorAndroid="transparent"
-              onChangeText={(TextInputText) => this.setState({ email: TextInputText })} 
+              onChangeText={(TextInputText) => this.setState({ email: TextInputText })}
               keyboardType="email-address"
-              ref={input => { this.email = input }}/>
+              ref={input => { this.email = input }} />
 
             <TouchableOpacity
               activeOpacity={0.5}
               style={styles.TouchableOpacityStyle}
               onPress={this.Insert_Data_Into_MySQL}>
-              
+
               <Text style={styles.TextStyle}>Tambah Data</Text>
 
             </TouchableOpacity>
