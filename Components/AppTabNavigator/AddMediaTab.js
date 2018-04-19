@@ -5,10 +5,13 @@ import {
   StyleSheet,
   TextInput,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  Image,
+  KeyboardAvoidingView,
+  ScrollView
 } from 'react-native';
 
-import { Icon, Container, Content, Header, Left, Body, Right, Button } from 'native-base'
+import { Icon, Container, Content, Thumbnail, Header, Left, Body, Right, Button } from 'native-base'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 
 class AddMediaTab extends Component {
@@ -32,12 +35,12 @@ class AddMediaTab extends Component {
     }
   }
 
-  
+
 
   Insert_Data_Into_MySQL = () => {
 
     this.setState({ ActivityIndicator_Loading: true }, () => {
-      fetch('http://smart-room.000webhostapp.com/inputData.php',
+      fetch('http://mhs.rey1024.com/appmobile/B1615051046/inputMhs.php',
         {
           method: 'POST',
           headers:
@@ -62,6 +65,13 @@ class AddMediaTab extends Component {
           console.error(error);
           this.setState({ ActivityIndicator_Loading: false });
         });
+        this.setState({
+          nim: '',
+          nama: '',
+          alamat: '',
+          no_hp: '',
+          email: ''
+        })
     });
     this.nim.clear()
     this.nama.clear()
@@ -77,19 +87,28 @@ class AddMediaTab extends Component {
 
       <Container style={{ flex: 1, backgroundColor: 'white' }}>
         <Header style={{ backgroundColor: 'white' }}>
-          <Left><Icon name="md-person-add" style={{ paddingLeft: 10 }}></Icon></Left>
+          <Left>
+            <Button transparent >
+              <Icon name="ios-search" style={{ paddingLeft: 10, fontSize: 32, color: '#000'}}>
+              </Icon>
+            </Button>
+          </Left>
           <Body style={{ alignItems: 'center' }}><Text>Masukan Data Mahasiswa</Text></Body>
           <Right>
             <Button transparent >
               <EntypoIcon name="back-in-time" style={{ paddingRight: 10, fontSize: 32 }}>
               </EntypoIcon>
-              
+
             </Button>
           </Right>
         </Header>
+        <ScrollView>
+        <KeyboardAvoidingView behavior="padding">
         <Content>
+          
           <View style={styles.MainContainer}>
-
+          
+          <Image source={{uri: 'http://mhs.rey1024.com/appmobile/B1615051046/images/add.png'}} style={{ height: 180, width: 180, flex: 1, marginBottom: 10 }} />
             <TextInput
               placeholder="Masukan NIM"
               style={styles.TextInputStyleClass}
@@ -141,13 +160,17 @@ class AddMediaTab extends Component {
 
             {
 
-              this.state.ActivityIndicator_Loading ? <ActivityIndicator color='#009688' size='large' style={styles.ActivityIndicatorStyle} /> : null
+              this.state.ActivityIndicator_Loading ? <ActivityIndicator color='#2980b9' size='large' style={styles.ActivityIndicatorStyle} /> : null
 
             }
 
           </View>
+          
         </Content>
+        </KeyboardAvoidingView>
+         </ScrollView>
       </Container>
+      
 
 
     );
@@ -175,7 +198,7 @@ const styles = StyleSheet.create({
       height: 40,
       backgroundColor: "#fff",
       borderWidth: 1,
-      borderColor: '#009688',
+      borderColor: '#2980b9',
       borderRadius: 7,
       marginBottom: 10,
       width: '95%'
@@ -184,7 +207,8 @@ const styles = StyleSheet.create({
     {
       paddingTop: 10,
       paddingBottom: 10,
-      backgroundColor: '#009688',
+      borderRadius: 7,
+      backgroundColor: '#2980b9',
       marginBottom: 20,
       width: '90%'
     },

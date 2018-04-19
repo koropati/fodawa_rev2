@@ -11,11 +11,11 @@ import SearchTab from './AppTabNavigator/SearchTab'
 import AddMediaTab from './AppTabNavigator/AddMediaTab'
 import LikesTab from './AppTabNavigator/LikesTab'
 import ProfileTab from './AppTabNavigator/ProfileTab'
-
-import {TabNavigator} from 'react-navigation'
+import editMhs from './editMhs'
+import { TabNavigator, StackNavigator} from 'react-navigation'
 import { Icon } from 'native-base'
 
-class MainScreen extends Component{
+class MainScreen extends Component {
 
 	static navigationOptions = {
 
@@ -23,14 +23,25 @@ class MainScreen extends Component{
 	}
 
 
-	render(){
-		return(
+	render() {
+		return (
 			<AppTabNavigator />
 		);
 	}
 }
 
 export default MainScreen;
+
+export const dataHapus = StackNavigator({
+	LikesTab: { screen: LikesTab },
+	editMhs: { screen: editMhs }
+	}, {
+		navigationOptions: {
+			header: false
+		}
+
+
+	});
 
 const AppTabNavigator = TabNavigator({
 	HomeTab: {
@@ -48,30 +59,30 @@ const AppTabNavigator = TabNavigator({
 	ProfileTab: {
 		screen: ProfileTab
 	}
-},{
-	animationEnabled:true,
-	swipeEnabled:true,
-	tabBarPosition:"bottom",
-	tabBarOptions: {
-		style:{
-			...Platform.select({
-				android:{
-					backgroundColor:'white'
-				}
-			})
-		},
-		activeTintColor: '#000',
-		inactiveTintColor: '#d1cece',
-		showLabel: false,
-		showIcon: true
-	}
-})
+}, {
+		animationEnabled: true,
+		swipeEnabled: true,
+		tabBarPosition: "bottom",
+		tabBarOptions: {
+			style: {
+				...Platform.select({
+					android: {
+						backgroundColor: 'white'
+					}
+				})
+			},
+			activeTintColor: '#2980b9',
+			inactiveTintColor: '#d1cece',
+			showLabel: false,
+			showIcon: true
+		}
+	})
 
 const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 });

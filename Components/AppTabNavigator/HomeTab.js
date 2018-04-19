@@ -3,23 +3,63 @@ import {
 	View,
 	Text,
 	StyleSheet,
-	ScrollView
+	RefreshControl,
+	ActivityIndicator,
+	TouchableOpacity,
+	ScrollView,
+	FlatList,
+	List,
+	ListItem
 } from 'react-native';
 
 import CardComponent from '../CardComponent'
 import { Container, Content, Icon, Thumbnail, Header, Left, Right, Body } from 'native-base'
 
-class HomeTab extends Component{
+class HomeTab extends Component {
 
 	static navigationOptions = {
 
-		tabBarIcon: ({tintColor})=>(
-			<Icon name="ios-home" style={{color: tintColor}} />
+		tabBarIcon: ({ tintColor }) => (
+			<Icon name="ios-home" style={{ color: tintColor }} />
 		)
 	}
 
-	render(){
-		return(
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: false,
+			data: [],
+			error: null,
+			refreshing: false,
+			ActivityIndicator_Loading: false,
+		};
+	}
+
+	componentDidMount() {
+		this.setState({ ActivityIndicator_Loading: true }, () => {
+			this.setState({ refreshing: true });
+			const url = 'http://mhs.rey1024.com/appmobile/B1615051046/lihatMhs.php';
+			//this.setState({ loading: true });
+			fetch(url)
+				.then((response) => response.json())
+				.then((responseJson) => {
+					console.log("comp");
+					console.log(responseJson);
+					this.setState({
+						data: responseJson,
+						error: responseJson.error || null,
+						loading: false,
+						refreshing: false,
+						ActivityIndicator_Loading: false,
+
+					});
+				}
+				);
+		});
+	}
+
+	render() {
+		return (
 			<Container style={styles.container}>
 
 				<Header style={{ backgroundColor: 'white' }}>
@@ -27,17 +67,23 @@ class HomeTab extends Component{
 					<Body><Text>Fodawa</Text></Body>
 					<Right><Icon name="ios-send-outline" style={{ paddingRight: 10 }}></Icon></Right>
 				</Header>
-				<Content>
+				<Content
+					refreshControl={
+						<RefreshControl
+							refreshing={this.state.refreshing}
+							onRefresh={this.componentDidMount.bind(this)}
+						/>
+					}>
 					<View style={{ height: 100 }}>
 						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 7 }}>
-						<Text style={{ fontWeight: 'bold'}}>Stories</Text>
-						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Icon name="md-play" style={{ fontSize: 14 }}></Icon>
-							<Text style={{ fontWeight: 'bold'}}>Watch All</Text>
-						</View>
+							<Text style={{ fontWeight: 'bold' }}>Stories</Text>
+							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Icon name="md-play" style={{ fontSize: 14 }}></Icon>
+								<Text style={{ fontWeight: 'bold' }}>Watch All</Text>
+							</View>
 						</View>
 						<View style={{ flex: 3 }}>
-							<ScrollView 
+							<ScrollView
 								horizontal={true}
 								showsHorizontalScrollIndicator={false}
 								contentContainerStyle={{
@@ -47,37 +93,48 @@ class HomeTab extends Component{
 								}}
 							>
 								<Thumbnail style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-								source={require('../../assets/StoriesHeaderThumbnails/1.jpg')} />
+									source={require('../../assets/StoriesHeaderThumbnails/1.jpg')} />
 								<Thumbnail style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-								source={require('../../assets/StoriesHeaderThumbnails/2.jpg')} />
+									source={require('../../assets/StoriesHeaderThumbnails/2.jpg')} />
 								<Thumbnail style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-								source={require('../../assets/StoriesHeaderThumbnails/3.jpg')} />
+									source={require('../../assets/StoriesHeaderThumbnails/3.jpg')} />
 								<Thumbnail style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-								source={require('../../assets/StoriesHeaderThumbnails/7.jpg')} />
+									source={require('../../assets/StoriesHeaderThumbnails/7.jpg')} />
 								<Thumbnail style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-								source={require('../../assets/StoriesHeaderThumbnails/5.jpeg')} />
+									source={require('../../assets/StoriesHeaderThumbnails/5.jpeg')} />
 								<Thumbnail style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-								source={require('../../assets/StoriesHeaderThumbnails/6.jpg')} />
+									source={require('../../assets/StoriesHeaderThumbnails/6.jpg')} />
 							</ScrollView>
 						</View>
 					</View>
 
-					<CardComponent imageSource="1" likes="101" nama="dewok" nim="11111"/>
-					<CardComponent imageSource="2" likes="123" nama="satria" nim="11311"/>
-					<CardComponent imageSource="3" likes="99" nama="sudi" nim="88111"/>
-					<CardComponent imageSource="4" likes="999" nama="tresna" nim="189311"/>
+					<View>
+						
+						<FlatList
+							data={this.state.data}
+							keyExtractor={(item, index) => index}
+							renderItem={({ item }) =>
+								<CardComponent imageSource="1" likes="101" nama={item.nama} nim={item.nim} alamat={item.alamat} no_hp={item.no_hp} email={item.email} />
+								//<CardComponent imageSource="1" nama={item.nama} nim={item.nim}/>
+							}
+
+
+						/>
+					</View>
+
+
 				</Content>
 			</Container>
 
-			);
+		);
 	}
 }
 
 export default HomeTab;
 
 const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-    backgroundColor:'white'
-  },
+	container: {
+		flex: 1,
+		backgroundColor: 'white'
+	},
 });

@@ -10,8 +10,19 @@ import {
 } from 'react-native';
 
 import { Container, Header, Content, List, ListItem, Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
-
+import editMhs from './editMhs'
+import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
+import LikeTab from './AppTabNavigator/LikesTab';
 class CardMhs extends Component {
+
+	constructor() {
+		super();
+		this.state = {
+			nimYgdiEdit: '',
+
+		}
+	}
+
 
 	render() {
 
@@ -19,9 +30,9 @@ class CardMhs extends Component {
 			<Card>
 				<CardItem style={{ backgroundColor: '#ecf0f1' }}>
 					<Left>
-						<Thumbnail source={require('../assets/mhs.png')} />
+						<Thumbnail source={{uri: 'http://mhs.rey1024.com/appmobile/B1615051046/images/mhs.png'}} />
 						<Body>
-							<Text>{this.props.nama}</Text>
+							<Text style={{ fontWeight: 'bold' }}>{this.props.nama}</Text>
 							<Text note>{this.props.nim}</Text>
 						</Body>
 					</Left>
@@ -75,7 +86,18 @@ class CardMhs extends Component {
 				</CardItem>
 				<CardItem style={{ height: 45 }}>
 					<Left>
-						<Button iconLeft style={{ backgroundColor: '#2980b9', paddingLeft: 2, height: 30, width: 100 }}>
+						<Button iconLeft
+							onPress={() => {
+								/* 1. Navigate to the Details route with params */
+								this.props.navigation.navigate('Edit', {
+									edit_nim: this.nim,
+									edit_nama: this.nama,
+									edit_alamat: this.alamat,
+									edit_no_hp: this.no_hp,
+									edit_email: this.email,
+								});
+							}}
+							style={{ backgroundColor: '#2980b9', paddingLeft: 2, height: 30, width: 100, borderRadius: 7 }}>
 							<Icon name='refresh' />
 							<Text style={{ color: 'white', paddingRight: 10 }}>Edit</Text>
 
@@ -83,14 +105,41 @@ class CardMhs extends Component {
 					</Left>
 					<Right>
 						<Button iconLeft onPress={() => Alert.alert(
-							'Alert',
-							'Yakin Dihapus ?',
+							'Hapus Data',
+							'Yakin Ingin menghapus ' + this.props.nama + ' ?',
 							[
 								{ text: 'Batal', onPress: () => console.log('Cancel ditekan'), style: 'cancel' },
-								{ text: 'OK', onPress: () => console.log('Ceritanya Dihapus') },
+								{
+									text: 'OK', onPress: () => this.setState({ ActivityIndicator_Loading: true }, () => {
+										fetch('http://mhs.rey1024.com/appmobile/B1615051046/deleteMhs.php',
+											{
+												method: 'POST',
+												headers:
+													{
+														'Accept': 'application/json',
+														'Content-Type': 'application/json',
+													},
+												body: JSON.stringify(
+													{
+														nim: this.props.nim,
+
+
+													})
+
+											}).then((response) => response.json()).then((responseJsonFromServer) => {
+												alert(responseJsonFromServer);
+												this.setState({ ActivityIndicator_Loading: false });
+
+											}).catch((error) => {
+												console.error(error);
+												this.setState({ ActivityIndicator_Loading: false });
+
+											});
+									})
+								},
 							],
-							{ cancelable: false }
-						)} style={{ backgroundColor: '#c0392b', paddingLeft: 2, height: 30, width: 100 }}>
+							{ cancelable: true }
+						)} style={{ backgroundColor: '#c0392b', paddingLeft: 2, height: 30, width: 100, borderRadius: 7 }}>
 							<Icon name='trash' />
 							<Text style={{ color: 'white', paddingRight: 10 }}>Hapus</Text>
 
@@ -104,7 +153,12 @@ class CardMhs extends Component {
 }
 
 
+
+
+
 export default CardMhs;
+
+
 
 
 const styles = StyleSheet.create({
@@ -113,5 +167,14 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	ActivityIndicatorStyle: {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		top: 0,
+		bottom: 0,
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 });

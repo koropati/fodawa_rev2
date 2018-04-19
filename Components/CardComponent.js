@@ -13,10 +13,10 @@ class CardComponent extends Component{
 	render(){
 
 		const images = {
-			"1": require('../assets/feed_images/1.jpg'),
-			"2": require('../assets/feed_images/2.jpg'),
-			"3": require('../assets/feed_images/3.jpg'),
-			"4": require('../assets/feed_images/4.jpg')
+			"1": {uri: 'http://mhs.rey1024.com/appmobile/B1615051046/images/feed_images/1.jpg'},
+			"2": {uri: 'http://mhs.rey1024.com/appmobile/B1615051046/images/feed_images/2.jpg'},
+			"3": {uri: 'http://mhs.rey1024.com/appmobile/B1615051046/images/feed_images/3.jpg'},
+			"4": {uri: 'http://mhs.rey1024.com/appmobile/B1615051046/images/feed_images/4.jpg'}
 		}
 
 
@@ -24,9 +24,9 @@ class CardComponent extends Component{
 			<Card>
 				<CardItem>
 					<Left>
-						<Thumbnail source={require('../assets/me.png')} />
+						<Thumbnail source={{uri: 'http://mhs.rey1024.com/appmobile/B1615051046/images/mhs.png'}} />
 						<Body>
-							<Text>{this.props.nama}</Text>
+							<Text style={{ fontWeight:"900", paddingRight: 10}}>{this.props.nama}</Text>
 							<Text note>{this.props.nim}</Text>
 						</Body>
 					</Left>
@@ -55,12 +55,13 @@ class CardComponent extends Component{
 					<Body>
 						<Text>
 							<Text style={{ fontWeight:"900", paddingRight: 10}}>
-							Dewok Satria
+							{this.props.nama} {"\n"}
 							</Text>
-							Hidup Mahasiswa Tak seharusnya
-							Di cemari dengan keseharian
-							Begadang, Hemzzz Tapi Mau apa Lagi?
-							Mungkin Sudah Takdir Kami :(
+							<Text>
+								Halo Nama Saya {this.props.nama} Nim saya yaitu {this.props.nim} Saya tinggal di  {this.props.alamat}
+							 Anda bisa menghubungi saya di No {this.props.no_hp}
+							 </Text>
+
 						</Text>
 					</Body>
 				</CardItem>
